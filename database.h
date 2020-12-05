@@ -13,9 +13,22 @@ public:
   string name; //name of airport
   double latitude; //Decimal degrees, usually to six significant digits. Negative is South, positive is North.
   double longitude; //Decimal degrees, usually to six significant digits. Negative is South, positive is North.
+};
 
-  std::vector<std::pair(int, std::string)> identify_airport; //pairs 'airportID' and 'name'
+class Database {
+public:
+  std::vector<Airport> all_airports;
+  std::map<int, std::vector<int>> connections;
 
-  std::vector<Airport> getAirportInfo(string filename); //function to read CSV file for airport information
-  std::map<int, std::vector<int>> getConnections(string filename); //'airportID' with connected airportIDs
+  //function declarations
+  //returns airport name given id
+  std::string getAiportName(int id);
+
+  //function to read CSV file and return a vector of all Airport objects
+  std::vector<Airport> getAirportInfo(string filename);
+
+  //returns map of 'airportID' with connected airportIDs
+  std::map<int, std::vector<int>> getConnections(string filename);
+
+
 };
