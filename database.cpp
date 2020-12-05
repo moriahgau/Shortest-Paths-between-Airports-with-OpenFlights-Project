@@ -1,4 +1,5 @@
 #include <vector>
+#include <string>
 #include "database.h"
 
 using std::string;
@@ -18,18 +19,29 @@ Airport::Airport(int id, string airportName, double lat, double long) {
   longitude = long;
 }
 
+/*
+** Return name of airport given airportID.
+*/
+string Database::getAiportName(int id) {
+  for (auto& plane : all_airports) {
+    if (plane.airportID == id) return plane.name;
+  }
+  return "name not found";
+}
+
 
 /*
 ** Read airport info from file (airports.dat) and create Airport vector.
 **
 */
-vector<Airport> Airport::getAirportInfo(string filename) { //airports.dat
+vector<Airport> Database::getAirportInfo(string filename) { //airports.dat
   ifstream file(filename); // Object to read from file
   file.open(filename, ios::in); // Opening file in input mode
 
   string temp;
   vector<string> row;
-  vector<Airport> all_airports;
+  //vector<Airport> all_airports;
+  all_airports.clear(); //clear all_airports data just in case
 
   while (file) {
     row.clear();
@@ -47,7 +59,6 @@ vector<Airport> Airport::getAirportInfo(string filename) { //airports.dat
 
     // add new Airport to airport vector
     all_airports.push_back(Airport(identifier, airportName, lat, long));
-    identify_airport.push_back(std::pair(identifier, airportName));
   }
 
   file.close();
@@ -59,13 +70,14 @@ vector<Airport> Airport::getAirportInfo(string filename) { //airports.dat
 ** Read connections info from file (routes.dat) and create 'connections'.
 **
 */
-map<int, vector<int>> Airport::getConnections(string filename) { //routes.dat
+map<int, vector<int>> Database::getConnections(string filename) { //routes.dat
   ifstream file(filename); // Object to read from file
   file.open(filename, ios::in); // Opening file in input mode
 
   string temp;
   vector<string> row;
-  map<int, vector<int>> connections;
+  //map<int, vector<int>> connections;
+  connections.clear(); //clear connections data just in case
 
   while (file) {
     row.clear();
