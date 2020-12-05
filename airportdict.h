@@ -2,6 +2,17 @@
 #include <iostream>
 #include <fstream>
 
-using namespace std;
+#include <map>
+#include <vector>
 
-class AirportDict{}
+#include "database.h"
+
+class AirportDict{
+public:
+  std::map<int, std::vector<int>> connections; //airportID with connected airportIDs
+
+  AirportDict();
+
+  int getConnectionsDict(string filename);
+
+};
