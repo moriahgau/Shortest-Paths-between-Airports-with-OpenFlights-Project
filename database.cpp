@@ -20,13 +20,13 @@ Airport::Airport(int id, string airportName, long double lat, long double longi)
 }
 
 /*
-** Return name of airport given airportID.
+** Return airportID given airport name.
 */
 int Database::getAiportID(string airportname) {
   for (auto plane : all_airports) {
     if (plane.name == airportname) return plane.airportID;
   }
-  return "name not found";
+  return -1; // invalid
 }
 
 
