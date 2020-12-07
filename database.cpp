@@ -12,21 +12,44 @@ using namespace std;
 /*
 ** Constructor for Airport object.
 */
-Airport::Airport(int id, string airportName, double lat, double long) {
+Airport::Airport(int id, string airportName, long double lat, long double longi) {
   airportID = id;
   name = airportName;
   latitude = lat;
-  longitude = long;
+  longitude = longi;
 }
 
 /*
 ** Return name of airport given airportID.
 */
 string Database::getAiportName(int id) {
-  for (auto& plane : all_airports) {
+  for (auto plane : all_airports) {
     if (plane.airportID == id) return plane.name;
   }
   return "name not found";
+}
+
+
+/*
+** Sorts 'all_airports' so that all_airports[0] is the starting point, and all_airports.back() is the ending point.
+*/
+void Database::sortAirportsVector(int startingID, int endingID) {
+  for (unsigned i = 0; i < all_airports.size(); i++) {
+    if (all_airports[i].airportID == startingID) {
+      // create a copy Airport object of starting airport and remove from vector
+      Airport new_start(all_airports[i].airportID, all_airports[i].name, all_airports[i].latitude, all_airports[i].longitude);
+      all_airports.erase(all_airports.begin()+i);
+    }
+  }
+  for (unsigned i = 0; i < all_airports.size(); i++) {
+    if (all_airports[i].airportID == endingID) {
+      Airport new_end(all_airports[i].airportID, all_airports[i].name, all_airports[i].latitude, all_airports[i].longitude);
+      all_airports.erase(all_airports.begin()+i);
+    }
+  }
+
+  all_airports.insert(all_airports.begin(),new_start); // inserts starting Airport to front of vector
+  all_airports.push_back(new_end); // puts ending Airport to end of vector
 }
 
 
@@ -42,6 +65,7 @@ vector<Airport> Database::getAirportInfo(string filename) { //airports.dat
   vector<string> row;
   //vector<Airport> all_airports;
   all_airports.clear(); //clear all_airports data just in case
+  locations.clear();
 
   while (file) {
     row.clear();
@@ -54,11 +78,17 @@ vector<Airport> Database::getAirportInfo(string filename) { //airports.dat
     // store data in airport variables
     int identifier = stoi(row[0]); //convert string to integer
     string airportName = row[1];
-    double lat = stod(row[6]);
-    double long = stod(row[7]);
+    long double lat = stod(row[6]);
+    long double longi = stod(row[7]);
 
     // add new Airport to airport vector
-    all_airports.push_back(Airport(identifier, airportName, lat, long));
+    all_airports.push_back(Airport(identifier, airportName, lat, longi));
+
+    // add location info to locations vector
+    pair<long double, long double> loc;
+    loc.first = lat;
+    loc.second = longi;
+    locations.push_back(identifier, loc);
   }
 
   file.close();
