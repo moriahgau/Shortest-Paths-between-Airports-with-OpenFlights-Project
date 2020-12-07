@@ -1,6 +1,8 @@
 #include "airports.h"
 #include "dsets.h"
 #include <string>
+#include <stack>
+
 bool isStronglyConnected (std::string pointA, std::string pointB){
 
 //if airports are in same set,then they are strongly connected
@@ -33,3 +35,10 @@ for(int i = 0; i < /*size of database*/; i++){
 
 
 }
+
+//Kosaraju's algo to find strongly connected components 
+void scHelper(){
+
+}
+
+void DFS
