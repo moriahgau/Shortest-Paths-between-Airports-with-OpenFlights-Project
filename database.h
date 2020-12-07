@@ -24,9 +24,9 @@ public:
   //function declarations
 
   /*
-  ** Returns string name of Airport object given airportID.
+  ** Returns int airportID of Airport object given name.
   */
-  std::string getAiportName(int id);
+  int getAiportID(string airportname);
 
   /*
   ** Sorts 'all_airports' so that all_airports[0] is the starting point, and all_airports.back() is the ending point.
