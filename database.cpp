@@ -82,7 +82,7 @@ vector<Airport> Database::getAirportInfo(string filename) { //airports.dat
     long double longi = stod(row[7]);
 
     // add new Airport to airport vector
-    all_airports.push_back(Airport(identifier, airportName, lat, longi));
+    all_airports.push_back(Airport new_obj(identifier, airportName, lat, longi));
 
     // add location info to locations vector
     pair<long double, long double> loc;
