@@ -140,7 +140,7 @@ void DrawGraph::shortestPath(int src, const std::vector<Airport> & all_airports)
     // Create a vector for distances and initialize all 
     // distances as infinite (INF) 
     vector<int> dist(all_airports.size(), INF); 
-  
+    vector<int> parent(all_airports.size(), NULL);
     // Insert source itself in priority queue and initialize 
     // its distance as 0. 
     pq.push(make_pair(0, src)); 
@@ -173,13 +173,14 @@ void DrawGraph::shortestPath(int src, const std::vector<Airport> & all_airports)
             { 
                 // Updating distance of v 
                 dist[v] = dist[u] + weight; 
+                parent[v] = u;
                 pq.push(make_pair(dist[v], v)); 
             } 
         } 
     } 
     printf("Distance from Source to destination"); 
-    for (int i = 0; i < all_airports.size(); ++i) 
-        printf("%d \t\t %d\n", i, dist[i]); 
+    for (int i = 0; i < parent.size(); ++i) 
+        printf("%d \t\t %d\n", parent[i]); 
 } 
 
 /**
