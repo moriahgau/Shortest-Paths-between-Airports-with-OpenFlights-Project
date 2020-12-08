@@ -2,16 +2,19 @@
  * @file DrawGraph.cpp
  * CS 225: Data Structures
  */
-
+#define INF 99999999999
 #include "DrawGraph.h"
 #include "database.h"
 #include <iostream>
 #include <cmath>
 #include <ctime>
+#include <string>
+#include <iostream>
+#include <vector>
+#include <queue>
 #define pi 3.14159265358979323846
 using namespace std;
 #include <bits/stdc++.h> 
-  
 // Utility function for  
 // converting degrees to radians 
 long double toRadians(const long double degree) 
@@ -73,25 +76,32 @@ long double distance(long double lat1, long double long1,
  * @param numairports The number of starting tokens in the game of Nim.
  */
 
-DrawGraph::DrawGraph(string filename) : g_(true, true) {
+DrawGraph::DrawGraph(const std::vector<Airport> & all_airports, const std::map<int, std::vector<int>> & connections) : g_(true, true) {
     /* Your code goes here! */
     //getAirportinfo? 
     long double long1, long2, lat1, lat2;
-    std::vector<Airport> all_airports;
-    std::map<int, std::vector<int>> connections;
-//     std::string getAiportName(int id);
-//     all_airports = getAirportInfo(filename);
+//     std::vector<Airport> all_airports;
+//     std::map<int, std::vector<int>> connections;
+// //     std::string getAiportName(int id);
+// //     all_airports = getAirportInfo(filename);
+// //     std::map<int, std::vector<int>> getConnections(string filename);
+//     std::vector<Airport> getAirportInfo(string filename);
 //     std::map<int, std::vector<int>> getConnections(string filename);
-    std::vector<Airport> getAirportInfo(string filename);
-    std::map<int, std::vector<int>> getConnections(string filename);
-    airports = all_airports;
-    connects = connections;
-    startingVertex_ = "Airport " + to_string(all_airports[0].airportID); // the starting airport
+    // std::map<int, int> indextoairport;
     int numairports = all_airports.size();
-    for (unsigned i = 0; i < all_airports.size(); i++)
+    // std::list<pair<int, int>> *adj;
+    adj = new list <airportPair> [numairports];
+    // indextoairport.clear();
+    // maptoadj.clear();
+    startingVertex_ = "Airport " + to_string(all_airports[0].airportID); // the starting airport
+    for (unsigned int i = 0; i < all_airports.size(); i++)
     {
       g_.insertVertex("Airport " + to_string(all_airports[i].airportID));  // will this overwrite or make two?
+    //   indextoairport.insert(pair<int, int>(i, all_airports[i].airportID));
     }
+    // for(auto it: indextoairport){ 
+
+    // }
     while (numairports > 0) { // until iterates through all airports
         for(auto i : connections){
             for (int j = 0; j < i.second.size(); j++){
@@ -107,6 +117,8 @@ DrawGraph::DrawGraph(string filename) : g_(true, true) {
                     int d = distance(lat1, long1, lat2, long2); // cut it down to int
                     g_.insertEdge("Airport " + to_string(i.first), "Airport " + to_string(i.second[j]));
                     g_.setEdgeWeight("Airport " + to_string(i.first), "Airport " + to_string(i.second[j]), d);
+                    adj[i.first].push_back(make_pair(i.second[j], d));  // can i directly do this? 
+                    adj[i.second[j]].push_back(make_pair(i.first, d));
                     numairports--;
                 }
             }
@@ -114,73 +126,61 @@ DrawGraph::DrawGraph(string filename) : g_(true, true) {
     }
 }
 
-/**
- * Plays a random game of Nim, returning the path through the state graph
- * as a vector of `Edge` classes.  The `origin` of the first `Edge` must be
- * the vertex with the label "p1-#", where # is the number of starting
- * tokens.  (For example, in a 10 token game, result[0].origin must be the
- * vertex "p1-10".)
- *
- * @returns A random path through the state space graph.
- */
-//don't think need this function either
-// std::vector<Edge> DrawGraph::drawsConnections() const {
-//   vector<Edge> path;
-//  /* Your code goes here! */
-//  Vertex vertex = startingVertex_;
-//  Vertex temp = startingVertex_;
-//  int i = 0;
-//  while(temp != "Airport " + to_string(airports.back().airportID) && i < airports.size()){
-//     vertex = "Airport " + to_string(airports[i].airportID);
-//     path.push_back(g_.getEdge(temp, vertex));
-//     temp = vertex;
-//     i++;
-//  }
-//   return path;
-// }
+DrawGraph::~DrawGraph(){
+    delete[] adj;
+    adj = NULL;
+}
 
-
-/*
- * Updates the edge weights on the graph based on a path through the state
- * tree.
- *
- * If the `path` has Player 1 winning (eg: the last vertex in the path goes
- * to Player 2 with no tokens remaining, or "p2-0", meaning that Player 1
- * took the last token), then all choices made by Player 1 (edges where
- * Player 1 is the source vertex) are rewarded by increasing the edge weight
- * by 1 and all choices made by Player 2 are punished by changing the edge
- * weight by -1.
- *
- * Likewise, if the `path` has Player 2 winning, Player 2 choices are
- * rewarded and Player 1 choices are punished.
- *
- * @param path A path through the a game of Nim to learn.
- */
-// i don't think we need this? 
-// void DrawGraph::updateEdgeWeights(const std::vector<Edge> & path) {
-//  /* Your code goes here! */
-//  // if player 1 wins
-//  if (path.back().dest == "Airport " + vector.back()){   // end of the path
-//   for(size_t i = 0; i < path.size(); i++){
-//    if (i%2 == 0){
-//      g_.setEdgeWeight(path[i].source, path[i].dest, g_.getEdgeWeight(path[i].source, path[i].dest)+1);
-//    }
-//    else
-//     g_.setEdgeWeight(path[i].source, path[i].dest, g_.getEdgeWeight(path[i].source, path[i].dest)-1);
-//   }
-//  }
-//  // if player 2 wins
-//  else if (path.back().dest == "p1-0"){
-//    for(size_t i = 0; i < path.size(); i++){
-//      if (i%2 == 0){
-//        g_.setEdgeWeight(path[i].source, path[i].dest, g_.getEdgeWeight(path[i].source, path[i].dest)-1); // -1 for player 1
-//      }
-//      else
-//       g_.setEdgeWeight(path[i].source, path[i].dest, g_.getEdgeWeight(path[i].source, path[i].dest)+1); // +1 for player 2
-//    }
-//  }
-// }
-// 
+void DrawGraph::shortestPath(int src, const std::vector<Airport> & all_airports) 
+{ 
+    // Create a priority queue to store vertices that 
+    // are being preprocessed. 
+    priority_queue< airportPair, vector <airportPair> , greater<airportPair> > pq; 
+  
+    // Create a vector for distances and initialize all 
+    // distances as infinite (INF) 
+    vector<int> dist(all_airports.size(), INF); 
+  
+    // Insert source itself in priority queue and initialize 
+    // its distance as 0. 
+    pq.push(make_pair(0, src)); 
+    dist[src] = 0; 
+  
+    /* Looping till priority queue becomes empty (or all 
+      distances are not finalized) */
+    while (!pq.empty()) 
+    { 
+        // The first vertex in pair is the minimum distance 
+        // vertex, extract it from priority queue. 
+        // vertex label is stored in second of pair (it 
+        // has to be done this way to keep the vertices 
+        // sorted distance (distance must be first item 
+        // in pair) 
+        int u = pq.top().second; 
+        pq.pop(); 
+  
+        // 'i' is used to get all adjacent vertices of a vertex 
+        list< pair<int, int> >::iterator i; 
+        for (i = adj[u].begin(); i != adj[u].end(); ++i) 
+        { 
+            // Get vertex label and weight of current adjacent 
+            // of u. 
+            int v = (*i).first; 
+            int weight = (*i).second; 
+  
+            //  If there is shorted path to v through u. 
+            if (dist[v] > dist[u] + weight) 
+            { 
+                // Updating distance of v 
+                dist[v] = dist[u] + weight; 
+                pq.push(make_pair(dist[v], v)); 
+            } 
+        } 
+    } 
+    printf("Distance from Source to destination"); 
+    for (int i = 0; i < all_airports.size(); ++i) 
+        printf("%d \t\t %d\n", i, dist[i]); 
+} 
 
 /**
  * Label the edges as "WIN" or "LOSE" based on a threshold.
@@ -207,3 +207,38 @@ DrawGraph::DrawGraph(string filename) : g_(true, true) {
 const Graph & DrawGraph::getGraph() const {
   return g_;
 }
+
+void DrawGraph::BFS(int start, const std::vector<Airport> & all_airports){
+// Mark all the vertices as not visited
+    bool *visited = new bool[all_airports.size()];
+    for(int i = 0; i < all_airports.size(); i++)
+        visited[i] = false;
+    // Create a queue for BFS
+    list<int> queue;
+    // Mark the current node as visited and enqueue it
+    visited[start] = true;
+    queue.push_back(start);
+    // 'i' will be used to get all adjacent
+    // vertices of a vertex
+    list< pair<int, int> >::iterator i; 
+    while(!queue.empty())
+    {
+        // Dequeue a vertex from queue and print it
+        start = queue.front();
+        cout << start << " ";
+        queue.pop_front();
+        // Get all adjacent vertices of the dequeued
+        // vertex s. If a adjacent has not been visited, 
+        // then mark it visited and enqueue it
+        for (i = adj[start].begin(); i != adj[start].end(); ++i)
+        {
+            if (!visited[(*i).first])
+            {
+                visited[(*i).first] = true;
+                queue.push_back((*i).first);
+            }
+        }
+    }
+}
+
+
