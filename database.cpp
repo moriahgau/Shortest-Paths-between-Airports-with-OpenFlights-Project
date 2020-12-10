@@ -12,6 +12,13 @@ using namespace std;
 /*
 ** Constructor for Airport object.
 */
+Airport::Airport() {
+  airportID = 0;
+  name = "";
+  latitude = 0;
+  longitude = 0;
+}
+
 Airport::Airport(int id, string airportName, long double lat, long double longi) {
   airportID = id;
   name = airportName;
@@ -34,17 +41,27 @@ int Database::getAiportID(string airportname) {
 ** Sorts 'all_airports' so that all_airports[0] is the starting point, and all_airports.back() is the ending point.
 */
 void Database::sortAirportsVector(int startingID, int endingID) {
+  Airport new_start;
+  Airport new_end;
   for (unsigned i = 0; i < all_airports.size(); i++) {
     if (all_airports[i].airportID == startingID) {
       // create a copy Airport object of starting airport and remove from vector
-      Airport new_start(all_airports[i].airportID, all_airports[i].name, all_airports[i].latitude, all_airports[i].longitude);
+      new_start.airportID = all_airports[i].airportID;
+      new_start.name = all_airports[i].name;
+      new_start.latitude = all_airports[i].latitude;
+      new_start.longitude =  all_airports[i].longitude;
       all_airports.erase(all_airports.begin()+i);
+      break;
     }
   }
   for (unsigned i = 0; i < all_airports.size(); i++) {
     if (all_airports[i].airportID == endingID) {
-      Airport new_end(all_airports[i].airportID, all_airports[i].name, all_airports[i].latitude, all_airports[i].longitude);
+      new_end.airportID = all_airports[i].airportID;
+      new_end.name = all_airports[i].name;
+      new_end.latitude = all_airports[i].latitude;
+      new_end.longitude =  all_airports[i].longitude;
       all_airports.erase(all_airports.begin()+i);
+      break;
     }
   }
 
@@ -69,7 +86,7 @@ vector<Airport> Database::getAirportInfo(string filename) { //airports.dat
 
   while (file) {
     row.clear();
-    stringstream s(line);
+    //stringstream s(line);
 
     while (getline(s, temp, ',')) {
       row.push_back(temp); //put all the column data of a row in 'temp'
@@ -132,14 +149,14 @@ map<int, vector<int>> Database::getConnections(string filename) { //routes.dat
     }
 
     // if destID in map, add sourceID to vector
-    if (connections.count(destID) > 0) {
-      connections.at(destID).push_back(sourceID); // add sourceID
-    }
-    else {    // if destID not in map, create new element
-      vector<int> dest;
-      dest.push_back(sourceID);
-      connections[destID] = dest;
-    }
+    // if (connections.count(destID) > 0) {
+    //   connections.at(destID).push_back(sourceID); // add sourceID
+    // }
+    // else {    // if destID not in map, create new element
+    //   vector<int> dest;
+    //   dest.push_back(sourceID);
+    //   connections[destID] = dest;
+    // }
   }
 
   file.close();

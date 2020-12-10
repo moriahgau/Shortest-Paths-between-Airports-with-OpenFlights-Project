@@ -2,11 +2,14 @@
 #include <iostream>
 #include <fstream>
 #include <map>
+#include <vector>
+#include <utility>
 
 using namespace std;
 
 class Airport {
 public:
+  Airport(); //default constructor
   Airport(int id, string airportName, long double lat, long double longi); //constructor
 
   int airportID; //unique openflight's airport ID
@@ -18,7 +21,7 @@ public:
 class Database {
 public:
   vector<Airport> all_airports; //vector of all Airport objects in database
-  map<int, std::pair> locations; //map of locations of all Airports, locations[20].first = latitude, locations[20].second = longitude
+  map<int, pair<long double, long double>> locations; //map of locations of all Airports, locations[20].first = latitude, locations[20].second = longitude
   map<int, vector<int>> connections; //map of < airportID, vector of connected airport IDs >
 
   //function declarations
