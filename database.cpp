@@ -1,4 +1,5 @@
 #include <vector>
+#include <stack>
 #include <string>
 #include "database.h"
 
@@ -144,4 +145,26 @@ map<int, vector<int>> Database::getConnections(string filename) { //routes.dat
 
   file.close();
   return connections;
+}
+
+bool isStronglyConnected (int idA, int idB){
+
+//if airports are in same set,then they are strongly connected
+if(scAirports.find(idA) == scAirports.find(idB)) return true;
+
+return false;
+}
+
+void scHelper(){
+
+  stack<int> stack;
+
+  int numAirports = all_airports.size();
+
+  //init visited array
+  bool *visited = new bool[numAirports];
+  for(int i = 0; i < numAirports; i++) visited[i] = false;
+
+  
+
 }

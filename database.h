@@ -3,6 +3,8 @@
 #include <fstream>
 #include <map>
 
+#include "dsets.h"
+
 using namespace std;
 
 class Airport {
@@ -20,6 +22,8 @@ public:
   vector<Airport> all_airports; //vector of all Airport objects in database
   map<int, std::pair> locations; //map of locations of all Airports, locations[20].first = latitude, locations[20].second = longitude
   map<int, vector<int>> connections; //map of < airportID, vector of connected airport IDs >
+
+  DisjointSets scAirports; //disjoint set to keep track of all strongly connected airports with O(1) lookup
 
   //function declarations
 
@@ -55,6 +59,11 @@ public:
   ** }
   */
   std::map<int, std::vector<int>> getConnections(string filename);
+
+  bool isStronglyConnected(int idA, int idB);
+  void scHelper();
+  void DFS(int vertex);
+  void DFSHelper(int vertex);
 
 
 };
