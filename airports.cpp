@@ -37,8 +37,10 @@ for(int i = 0; i < /*size of database*/; i++){
 }
 
 //Kosaraju's algo to find strongly connected components 
-void scHelper(){
+void scHelper(int vertex){
 
 }
 
-void DFS
+void DFS(){
+    
+}
