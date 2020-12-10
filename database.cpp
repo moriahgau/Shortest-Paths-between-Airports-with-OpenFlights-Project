@@ -1,5 +1,6 @@
 #include <vector>
 #include <string>
+#include <sstream>
 #include "database.h"
 
 using std::string;
@@ -78,17 +79,17 @@ vector<Airport> Database::getAirportInfo(string filename) { //airports.dat
   ifstream file(filename); // Object to read from file
   file.open(filename, ios::in); // Opening file in input mode
 
-  string temp;
+  string temp, line;
   vector<string> row;
   //vector<Airport> all_airports;
   all_airports.clear(); //clear all_airports data just in case
   locations.clear();
 
-  while (file) {
+  while (getline(file, line)) {
     row.clear();
-    //stringstream s(line);
+    stringstream ss(line);
 
-    while (getline(s, temp, ',')) {
+    while (getline(ss, temp, ',')) {
       row.push_back(temp); //put all the column data of a row in 'temp'
     }
 
@@ -99,13 +100,19 @@ vector<Airport> Database::getAirportInfo(string filename) { //airports.dat
     long double longi = stod(row[7]);
 
     // add new Airport to airport vector
-    all_airports.push_back(Airport new_obj(identifier, airportName, lat, longi));
+    Airport new_obj;
+    new_obj.airportID = identifier;
+    new_obj.name = airportName;
+    new_obj.latitude = lat;
+    new_obj.longitude = longi;
 
-    // add location info to locations vector
+    all_airports.push_back(new_obj);
+
+    // add location info to locations map
     pair<long double, long double> loc;
     loc.first = lat;
     loc.second = longi;
-    locations.push_back(identifier, loc);
+    locations[identifier] = loc;
   }
 
   file.close();
@@ -121,22 +128,22 @@ map<int, vector<int>> Database::getConnections(string filename) { //routes.dat
   ifstream file(filename); // Object to read from file
   file.open(filename, ios::in); // Opening file in input mode
 
-  string temp;
+  string temp, line;
   vector<string> row;
   //map<int, vector<int>> connections;
   connections.clear(); //clear connections data just in case
 
-  while (file) {
+  while (getline(file, line)) {
     row.clear();
-    stringstream s(line);
+    stringstream ss(line);
 
-    while (getline(s, temp, ',')) {
+    while (getline(ss, temp, ',')) {
       row.push_back(temp); //put all the column data of a row in 'temp'
     }
 
     //convert string to integer
     int sourceID = stoi(row[3]);
-    int destID = stoid(row[5]);
+    int destID = stoi(row[5]);
 
     // if sourceID in map, add destID to vector
     if (connections.count(sourceID) > 0) {
