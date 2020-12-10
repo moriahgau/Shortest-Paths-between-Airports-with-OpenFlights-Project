@@ -49,7 +49,7 @@ public:
   **  // 'i.airportID' to get airportID
   ** }
   */
-  std::vector<Airport> getAirportInfo(string filename);
+  vector<Airport> getAirportInfo(string filename);
 
   /*
   ** Read CSV file and store info in 'connections'.
@@ -61,7 +61,7 @@ public:
   **  // 'i.second' to get the vector of airportIDs (example: <5,30,60>) connected to original airportID (example: 20)
   ** }
   */
-  std::map<int, std::vector<int>> getConnections(string filename);
+  map<int, vector<int>> getConnections(string filename);
 
   bool isStronglyConnected(int idA, int idB);
   void scHelper();

@@ -1,32 +1,47 @@
 #include "database.h"
+#include "DrawGraph.h"
 
 using namespace std;
 
 int main() {
   Database db; // initialize database
   // read data files and store info
-  vector<Airport> all_airports = db.getAirportInfo("airports.dat");
-  map<int, vector<int>> connections = db.getConnections("routes.dat");
-
+  db.getAirportInfo("airports.dat");
+  db.getConnections("routes.dat");
+  
   // ask user for departure airport (source) and arrival airport (dest)
   string source;
+  bool depFlag = false;
   cout << "Departure Airport Name (e.g ): ";
   getline(cin, source); // get user input from the keyboard
-  for (auto plane : all_airports) {
-    if (source != plane.name) cout << "Invalid airport name"; // check if valid airport name
-    break;
+  for (auto plane : db.all_airports) {
+
+    if (source == plane.name){
+      depFlag = true;
+      break;
+    } 
   }
+  if(!depFlag) cout << "Invalid airport name"<< endl; // check if valid airport name
 
   string dest;
+  bool destFlag = false;
   cout << "Arrival Airport Name: ";
   getline(cin, dest);
-  for (auto plane : all_airports) {
-    if (dest != plane.name) cout << "Invalid airport name"; // check if valid airport name
-    break;
+  for (auto plane : db.all_airports) {
+    if (source == plane.name){
+      destFlag = true;
+      break;
+    } 
   }
+  if(!destFlag) cout << "Invalid airport name"<< endl; // check if valid airport name
 
   db.sortAirportsVector(db.getAiportID(source), db.getAiportID(dest)); // rearrange 'all_airports'
 
+  DrawGraph *graph = new DrawGraph(db.all_airports, db.connections);
+
+  //graph->shortestPath(2, db.all_airports);
+
+  //graph->BFS(2, db.all_airports);
 
   return 0;
 }

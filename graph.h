@@ -202,6 +202,13 @@ public:
     Edge setEdgeWeight(Vertex source, Vertex destination, int weight);
 
     /**
+     * Reverses the edge directions between vertices 
+     * @param input graph
+     * @return transposed graph
+     */
+    Graph getTranspose(Graph input);
+
+    /**
      * Creates a name for snapshots of the graph.
      * @param title - the name to save the snapshots as
      */

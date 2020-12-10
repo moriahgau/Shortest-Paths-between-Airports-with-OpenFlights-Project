@@ -2,7 +2,7 @@
  * @file DrawGraph.cpp
  * CS 225: Data Structures
  */
-#define INF 99999999999
+#define INF 999999999
 #include "DrawGraph.h"
 #include "database.h"
 #include <iostream>
@@ -14,7 +14,7 @@
 #include <queue>
 #define pi 3.14159265358979323846
 using namespace std;
-#include <bits/stdc++.h> 
+//#include <bits/stdc++.h> 
 
 long double toRadians(const long double degree) 
 { 
@@ -57,7 +57,7 @@ DrawGraph::DrawGraph(const std::vector<Airport> & all_airports, const std::map<i
 //     std::map<int, std::vector<int>> getConnections(string filename);
     // std::map<int, int> indextoairport;
     int numairports = all_airports.size();
-    adj = new list <airportPair> [numairports];
+
     startingVertex_ = "Airport " + to_string(all_airports[0].airportID); // the starting airport
     for (unsigned int i = 0; i < all_airports.size(); i++)
     {
@@ -65,8 +65,8 @@ DrawGraph::DrawGraph(const std::vector<Airport> & all_airports, const std::map<i
     }
     while (numairports > 0) { // until iterates through all airports
         for(auto i : connections){
-            for (int j = 0; j < i.second.size(); j++){
-                for(int check; check < all_airports.size(); check++){
+            for (unsigned long j = 0; j < i.second.size(); j++){
+                for(unsigned long check = 0; check < all_airports.size(); check++){
                     if(i.first == all_airports[check].airportID){
                         long1 = all_airports[check].longitude;
                         lat1 =  all_airports[check].latitude;
@@ -96,7 +96,7 @@ void DrawGraph::shortestPath(int src, const std::vector<Airport> & all_airports)
 { 
     priority_queue< airportPair, vector <airportPair> , greater<airportPair> > pq; 
     vector<int> dist(all_airports.size(), INF); 
-    vector<int> parent(all_airports.size(), NULL);
+    vector<int> parent(all_airports.size(), 0);
     pq.push(make_pair(0, src)); 
     dist[src] = 0; 
 
@@ -118,9 +118,12 @@ void DrawGraph::shortestPath(int src, const std::vector<Airport> & all_airports)
         } 
     } 
     printf("Airport Sequence: "); 
-    for (int i = 0; i < parent.size(); ++i) 
-        printf("%d \t\t %d\n", parent[i]); 
-} 
+    unsigned long i;
+    for (i = 0; i < parent.size()-1; ++i) 
+        printf("%d->", parent[i]); 
+    i++;   
+    printf("%d\n", parent[i]);
+}  
 // Retrieves the graph
 const Graph & DrawGraph::getGraph() const {
   return g_;
@@ -128,7 +131,7 @@ const Graph & DrawGraph::getGraph() const {
 
 void DrawGraph::BFS(int start, const std::vector<Airport> & all_airports){
     bool *visited = new bool[all_airports.size()];
-    for(int i = 0; i < all_airports.size(); i++)
+    for(unsigned long i = 0; i < all_airports.size(); i++)
         visited[i] = false;
     list<int> queue;
     visited[start] = true;

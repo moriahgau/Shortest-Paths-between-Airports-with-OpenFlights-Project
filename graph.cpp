@@ -327,6 +327,26 @@ bool Graph::assertEdgeExists(Vertex source, Vertex destination, string functionN
     return true;
 }
 
+Graph Graph::getTranspose(Graph input){
+
+    std::vector<Vertex> vertices = input.getVertices();
+
+    for(unsigned long s = 0; s < vertices.size(); s++){
+
+        std::vector<Vertex> adj = input.getAdjacent(vertices[s]);
+
+        for(unsigned long d = 0; d < adj.size(); d++){
+
+            //determine if edge exists and if so, reverse
+            if(edgeExists(vertices[s], adj[d])){
+
+            }
+        }
+    }
+
+    return input;
+}
+
 bool Graph::isDirected() const
 {
     return directed;

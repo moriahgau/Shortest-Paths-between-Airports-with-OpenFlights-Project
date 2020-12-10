@@ -2,6 +2,7 @@
 #include <stack>
 #include <string>
 #include <sstream>
+#include<algorithm>
 #include "database.h"
 
 using std::string;
@@ -78,27 +79,38 @@ void Database::sortAirportsVector(int startingID, int endingID) {
 */
 vector<Airport> Database::getAirportInfo(string filename) { //airports.dat
   ifstream file(filename); // Object to read from file
-  file.open(filename, ios::in); // Opening file in input mode
 
   string temp, line;
   vector<string> row;
-  //vector<Airport> all_airports;
+
   all_airports.clear(); //clear all_airports data just in case
   locations.clear();
 
   while (getline(file, line)) {
+
     row.clear();
     stringstream ss(line);
 
     while (getline(ss, temp, ',')) {
       row.push_back(temp); //put all the column data of a row in 'temp'
     }
+    
+    //edge case in openflights dataset where there is a comma (defined delimiter) in airport name
+    if('A' <= row[6][1] && 'Z' >= row[6][1]){
+      for(unsigned long i = 2; i < row.size()-1; i++){
+        row[i] = row[i+1];
+      }
+      row.pop_back();
+    } 
 
     // store data in airport variables
     int identifier = stoi(row[0]); //convert string to integer
     string airportName = row[1];
     long double lat = stod(row[6]);
     long double longi = stod(row[7]);
+
+    //remove parantheses from aiport name string
+    airportName.erase(remove(airportName.begin(), airportName.end(), '"'), airportName.end());
 
     // add new Airport to airport vector
     Airport new_obj;
@@ -127,11 +139,10 @@ vector<Airport> Database::getAirportInfo(string filename) { //airports.dat
 */
 map<int, vector<int>> Database::getConnections(string filename) { //routes.dat
   ifstream file(filename); // Object to read from file
-  file.open(filename, ios::in); // Opening file in input mode
 
   string temp, line;
   vector<string> row;
-  //map<int, vector<int>> connections;
+
   connections.clear(); //clear connections data just in case
 
   while (getline(file, line)) {
@@ -141,6 +152,10 @@ map<int, vector<int>> Database::getConnections(string filename) { //routes.dat
     while (getline(ss, temp, ',')) {
       row.push_back(temp); //put all the column data of a row in 'temp'
     }
+
+
+    if(row[5][1] == 'N') row[5] = "-1";
+    if(row[3][1] == 'N') row[3] = "-1";
 
     //convert string to integer
     int sourceID = stoi(row[3]);
@@ -174,7 +189,7 @@ map<int, vector<int>> Database::getConnections(string filename) { //routes.dat
 bool isStronglyConnected (int idA, int idB){
 
 //if airports are in same set,then they are strongly connected
-if(scAirports.find(idA) == scAirports.find(idB)) return true;
+//if(scAirports.find(idA) == scAirports.find(idB)) return true;
 
 return false;
 }
@@ -183,11 +198,11 @@ void scHelper(){
 
   stack<int> stack;
 
-  int numAirports = all_airports.size();
+  /*int numAirports = all_airports.size();
 
   //init visited array
   bool *visited = new bool[numAirports];
-  for(int i = 0; i < numAirports; i++) visited[i] = false;
+  for(int i = 0; i < numAirports; i++) visited[i] = false;*/
 
   
 
