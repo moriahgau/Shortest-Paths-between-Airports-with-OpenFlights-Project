@@ -9,9 +9,10 @@
 #include <string>
 #include "graph.h"
 #include "edge.h"
+#include "database.h"
 using namespace std;
 
-typedef pair<int, int> airportPair; 
+typedef pair<int, int> airportPair;
 class DrawGraph {
 
   public:
