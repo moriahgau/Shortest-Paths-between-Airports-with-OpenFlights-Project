@@ -4,7 +4,7 @@ TEST = test
 
 # Add all object files needed for compiling:
 EXE_OBJ = main.o
-OBJS = graph.o main.o dsets.o database.0
+OBJS = graph.o main.o dsets.o database.o DrawGraph.o
 
 # Generated files
 CLEAN_RM = images/Out.png
