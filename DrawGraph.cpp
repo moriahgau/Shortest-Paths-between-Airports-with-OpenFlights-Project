@@ -168,6 +168,7 @@ const Graph & DrawGraph::getGraph() const {
 
 void DrawGraph::BFS(int start, const std::vector<Airport> & all_airports){
     std::list<int> bfsqueue; // airport id
+    vector<int> path;
     // bool visited[all_airports.size()] = {false};
     bool *visited = new bool[all_airports.size()+1]; // will this cause a mem leak? 
     for(unsigned long i = 0; i < all_airports.size()+1; i++)
@@ -177,7 +178,8 @@ void DrawGraph::BFS(int start, const std::vector<Airport> & all_airports){
     while(bfsqueue.empty() == false)
     {
         int vertex = bfsqueue.front();
-        cout << vertex << " ";
+        path.push_back(vertex);
+        // cout << vertex << " ";
         bfsqueue.pop_front();
     for(auto i = adj[vertex].begin(); i != adj[vertex].end(); ++i)   
         {
@@ -187,6 +189,9 @@ void DrawGraph::BFS(int start, const std::vector<Airport> & all_airports){
                 bfsqueue.push_back((*i).first);
             }
         }
+    }
+    for (int i = 0; i < path.size(); i++){
+        cout << path[i] <<" "<< endl;
     }
     delete[] visited;
     visited = NULL;
