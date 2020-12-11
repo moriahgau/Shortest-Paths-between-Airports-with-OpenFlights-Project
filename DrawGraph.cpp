@@ -91,13 +91,6 @@ DrawGraph::DrawGraph(const std::vector<Airport> & all_airports, const std::map<i
                     }
                         firstFlag = false;
                         secondFlag = false;
-            
-                    int d = distance(lat1, long1, lat2, long2); // cut it down to int
-                    g_.insertEdge("Airport " + to_string(i.first), "Airport " + to_string(i.second[j]));
-                    g_.setEdgeWeight("Airport " + to_string(i.first), "Airport " + to_string(i.second[j]), d);
-                    adj[i.first].push_back(make_pair(i.second[j], d)); 
-                    adj[i.second[j]].push_back(make_pair(i.first, d));
-                    numairports--;
                 }
                 if(firstFlag && secondFlag) break;
             }
