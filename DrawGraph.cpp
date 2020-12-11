@@ -136,7 +136,8 @@ void DrawGraph::shortestPath(int src, const std::vector<Airport> & all_airports)
         } 
     } 
     printf("Airport Sequence: "); 
-    for (unsigned long i = 0; i < parent.size()-1; i++) 
+    unsigned long i;
+    for (i = 0; i < parent.size()-1; i++) 
         printf("%d->", parent[i]); 
     i++;   
     printf("%d\n", parent[i]);
