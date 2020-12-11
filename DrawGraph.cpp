@@ -133,7 +133,10 @@ void DrawGraph::shortestPath(int start, int dest, const std::vector<Airport> & a
             } 
         }
     } 
-
+    if(dist[dest] == 999999999){
+        cout<< "Airport is not reachable"<< endl;
+        return;
+    }
     cout<< "Shortest Distance between "<< start<< " and "<< dest<< " is: "<< dist[dest]<< endl;
     cout<< "This path is: "<< endl;
     
