@@ -41,7 +41,7 @@ long double distance(long double lat1, long double long1,
     ans = ans * R; 
   
     return ans; 
-}
+} 
 /**
  * This function creates a graph, `g_` representing all the airports and their connections
  */
