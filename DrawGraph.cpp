@@ -150,7 +150,6 @@ void DrawGraph::shortestPath(int start, int dest, const std::vector<Airport> & a
 
     while(back != start){
         path.push(parent[back]);
-        cout<< back<< endl;
         back = parent[back];
     } 
     
