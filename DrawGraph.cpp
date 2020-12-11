@@ -65,23 +65,35 @@ DrawGraph::DrawGraph(const std::vector<Airport> & all_airports, const std::map<i
     }
     while (numairports > 0) { // until iterates through all airports
         for(auto i : connections){
+
+            bool firstFlag = false;
+            bool secondFlag = false;
             for (unsigned long j = 0; j < i.second.size(); j++){
                 for(unsigned long check = 0; check < all_airports.size(); check++){
                     if(i.first == all_airports[check].airportID){
                         long1 = all_airports[check].longitude;
                         lat1 =  all_airports[check].latitude;
+                        firstFlag = true;
                     }
                     if (i.second[j] == all_airports[check].airportID){
                         long2 = all_airports[check].longitude;
                         lat2 =  all_airports[check].latitude;
+                        secondFlag = true;
                     }
-                    int d = distance(lat1, long1, lat2, long2); // cut it down to int
-                    g_.insertEdge("Airport " + to_string(i.first), "Airport " + to_string(i.second[j]));
-                    g_.setEdgeWeight("Airport " + to_string(i.first), "Airport " + to_string(i.second[j]), d);
-                    adj[i.first].push_back(make_pair(i.second[j], d));  // can i directly do this? 
-                    adj[i.second[j]].push_back(make_pair(i.first, d));
-                    numairports--;
+                    if(firstFlag && secondFlag){
+                        int d = distance(lat1, long1, lat2, long2); // cut it down to int
+                        g_.insertEdge("Airport " + to_string(i.first), "Airport " + to_string(i.second[j]));
+                        g_.setEdgeWeight("Airport " + to_string(i.first), "Airport " + to_string(i.second[j]), d);
+                        adj[i.first].push_back(make_pair(i.second[j], d));  // can i directly do this? 
+                        adj[i.second[j]].push_back(make_pair(i.first, d));
+                        numairports--;
+                        break;
+                    }
+                        firstFlag = false;
+                        secondFlag = false;
+            
                 }
+                if(firstFlag && secondFlag) break;
             }
         }
     }
