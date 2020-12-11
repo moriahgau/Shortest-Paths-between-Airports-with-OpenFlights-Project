@@ -150,7 +150,6 @@ void DrawGraph::shortestPath(int start, int dest, const std::vector<Airport> & a
 
     while(back != start){
         path.push(parent[back]);
-        cout<< back<< endl;
         back = parent[back];
     } 
     
@@ -179,7 +178,6 @@ void DrawGraph::BFS(int start, const std::vector<Airport> & all_airports){
     {
         int vertex = bfsqueue.front();
         path.push_back(vertex);
-        // cout << vertex << " ";
         bfsqueue.pop_front();
     for(auto i = adj[vertex].begin(); i != adj[vertex].end(); ++i)   
         {
@@ -191,10 +189,11 @@ void DrawGraph::BFS(int start, const std::vector<Airport> & all_airports){
         }
     }
     for (int i = 0; i < path.size(); i++){
-        cout << path[i] <<" "<< endl;
+        cout << path[i] <<", "<<endl;
     }
     delete[] visited;
     visited = NULL;
 }
+
 
 
