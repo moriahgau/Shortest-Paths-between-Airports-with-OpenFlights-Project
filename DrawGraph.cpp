@@ -108,39 +108,43 @@ DrawGraph::DrawGraph(const std::vector<Airport> & all_airports, const std::map<i
 DrawGraph::~DrawGraph(){
     delete[] adj;
     adj = NULL;
+    // delete[] visited;
+    // visited = NULL;
 }
 
-void DrawGraph::shortestPath(int src, const std::vector<Airport> & all_airports) 
+void DrawGraph::shortestPath(int start, const std::vector<Airport> & all_airports) 
 { 
+    // following psuedocode from lecture
+    // Create a priority queue and initialize everything to infinity and all parents to 0
     priority_queue< airportPair, vector <airportPair> , greater<airportPair> > pqueue; 
-    vector<int> dist(all_airports.size(), INF); 
-    vector<int> parent(all_airports.size(), 0);
-    pqueue.push(make_pair(0, src)); 
-    dist[src] = 0; 
+    vector<int> dist(all_airports.size()+1, INF); 
+    vector<int> parent(all_airports.size()+1, 0);
 
-    while (!pqueue.empty()) 
+    dist[start] = 0; 
+    pqueue.push(make_pair(0, start));  
+
+    while (pqueue.empty() == false) 
     { 
-        int u = pqueue.top().second; 
-        pqueue.pop(); 
-        list< pair<int, int> >::iterator i; 
-        for (i = adj[u].begin(); i != adj[u].end(); ++i) 
+        int prior = pqueue.top().second; 
+        pqueue.pop();  
+        // check in adjacent
+        for (std::list< pair<int, int> >::iterator i = adj[prior].begin(); i != adj[prior].end(); ++i) 
         { 
-            int v = (*i).first; 
-            int weight = (*i).second; 
-            if (dist[v] > dist[u] + weight) 
+            int id = (*i).first; 
+            int distance = (*i).second; 
+            if (dist[id] > dist[prior] + distance) 
             { 
-                dist[v] = dist[u] + weight; 
-                parent[v] = u;
-                pqueue.push(make_pair(dist[v], v)); 
+                dist[id] = dist[prior] + distance; 
+                parent[id] = prior;
+                pqueue.push(make_pair(dist[id], id)); 
             } 
         } 
     } 
-    printf("Airport Sequence: "); 
-    unsigned long i;
-    for (i = 0; i < parent.size()-1; i++) 
-        printf("%d->", parent[i]); 
-    i++;   
-    printf("%d\n", parent[i]);
+    cout << "Airport Sequence: " << endl; 
+    for (unsigned long i = 0; i < parent.size(); i++) 
+        printf("% d ->", parent[i]); 
+    // i++;   
+    // cout << parent[i] << endl;
 }  
 // Retrieves the graph
 const Graph & DrawGraph::getGraph() const {
@@ -148,24 +152,26 @@ const Graph & DrawGraph::getGraph() const {
 }
 
 void DrawGraph::BFS(int start, const std::vector<Airport> & all_airports){
-    bool *visited = new bool[all_airports.size()];
-    for(unsigned long i = 0; i < all_airports.size(); i++)
+    std::list<int> bfsqueue; // airport id
+    // bool visited[all_airports.size()] = {false};
+    bool *visited = new bool[all_airports.size()]; // will this cause a mem leak? 
+    for(int i = 0; i < all_airports.size(); i++)
          visited[i] = false;
-    list<int> queue;
     visited[start] = true;
-    queue.push_back(start);
-    list< pair<int, int> >::iterator i; 
-    while(!queue.empty())
+    bfsqueue.push_back(start);
+    // list< pair<int, int> >::iterator i; 
+    while(bfsqueue.empty() == false)
     {
-        start = queue.front();
-        cout << start << " ";
-        queue.pop_front();
-        for (i = adj[start].begin(); i != adj[start].end(); ++i)
+        int vertex = bfsqueue.front();
+        cout << vertex << " ";
+        bfsqueue.pop_front();
+        // for (i = adj[vertex].begin(); i != adj[vertex].end(); ++i)
+    for(std::list< pair<int, int> >::iterator i = adj[vertex].begin(); i != adj[vertex].end(); ++i)
         {
-            if (!visited[(*i).first])
+            if (visited[(*i).first] == false)
             {
                 visited[(*i).first] = true;
-                queue.push_back((*i).first);
+                bfsqueue.push_back((*i).first);
             }
         }
     }
