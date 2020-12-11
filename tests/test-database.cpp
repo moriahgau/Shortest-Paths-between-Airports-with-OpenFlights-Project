@@ -35,6 +35,7 @@ TEST_CASE("Check getAiportID", "[weight=1]") {
   REQUIRE(db.getAiportID("Airport 3") == 3);
 }
 
+<<<<<<< HEAD
 TEST_CASE("Shortest Path", "[weight=1]") {
   Database db;
   
@@ -52,3 +53,15 @@ TEST_CASE("BFS", "[weight=1]") {
   DrawGraph *graph = new DrawGraph(db.all_airports, db.connections);
   REQUIRE(graph->BFS(2, db.all_airports) == "4 5 2");
 }
+=======
+TEST_CASE("shortestpath", "[weight=1]") {
+  Database db;
+  db.getAirportInfo("tests/airportstoy.dat");
+}
+
+TEST_CASE("BFS Traversal", "[weight=1]") {
+}
+
+TEST_CASE("Kosaraju's", "[weight=1]") {
+}
+>>>>>>> 96069cdbe9d02254fb6114f9dd82654660d283a1
