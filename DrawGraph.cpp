@@ -40,8 +40,7 @@ long double distance(long double lat1, long double long1,
     distance = 2 * asin(sqrt(distance)); 
 
     long double radiusofearth = 6371; 
-    return distance * radiusofearth; 
-    // return ans; 
+    return distance * radiusofearth; //return the found distance between the two points
 } 
 /**
  * This function creates a graph, `g_` representing all the airports and their connections
@@ -173,12 +172,12 @@ const vector<vector<pair<int, int>>> DrawGraph::getAdj() const{
 void DrawGraph::BFS(int start, const std::vector<Airport> & all_airports){
     std::list<int> bfsqueue; // airport id
     vector<int> path;
-    // bool visited[all_airports.size()] = {false};
     bool *visited = new bool[all_airports.size()+1]; // will this cause a mem leak? 
     for(unsigned long i = 0; i < all_airports.size()+1; i++)
          visited[i] = false;    // set everything as initially unvisited
     visited[start] = true;  // initialize only the starting airport to be visited
     bfsqueue.push_back(start);
+    
     while(bfsqueue.empty() == false)
     {
         int vertex = bfsqueue.front();
