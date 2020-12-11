@@ -33,7 +33,7 @@ public:
   /*
   ** Returns int airportID of Airport object given name.
   */
-  int getAiportID(string airportname);
+  int getAirportID(string airportname);
 
   /*
   ** Sorts 'all_airports' so that all_airports[0] is the starting point, and all_airports.back() is the ending point.

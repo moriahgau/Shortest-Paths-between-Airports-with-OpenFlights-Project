@@ -1,7 +1,7 @@
 #include "database.h"
 #include "DrawGraph.h"
 #include "kosaraju.h"
-#include "string"
+#include <string>
 
 using namespace std;
 
@@ -21,7 +21,7 @@ int main() {
 
   int choice;
 
-  cout<< "Please choose function (1: Shortest Path; 2: BFS; 3: Strongly Connected; 4: End): ";
+  cout<< "Please choose function (1: Shortest Path; 2: BFS; 3: Strongly Connected; 4: Find AirportID; 5: End): ";
   
   while(cin>> choice){
 
@@ -60,10 +60,20 @@ int main() {
     }
 
     else if(choice == 4){
+      
+      std::string name;
+      cout<< "Please input airport name: ";
+      cin.ignore();
+      std::getline(cin, name);
+      cout<< name<< endl;
+      cout<< "AirportID is: "<< db.getAirportID(name)<< endl;
+    }
+
+    else if(choice == 5){
       break;
     }
 
-    cout<< "Please choose function (1: Shortest Path; 2: BFS; 3: Strongly Connected): ";
+    cout<< "Please choose function (1: Shortest Path; 2: BFS; 3: Strongly Connected; 4: Find AirportID; 5: End): ";
   }
   /*// ask user for departure airport (source) and arrival airport (dest)
   string source;

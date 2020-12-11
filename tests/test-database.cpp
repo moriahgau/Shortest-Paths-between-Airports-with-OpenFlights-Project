@@ -33,7 +33,7 @@ TEST_CASE("Sorting all_airports", "[weight=1]") {
 TEST_CASE("Check getAiportID", "[weight=1]") {
   Database db;
   db.getAirportInfo("tests/airportstoy.dat");
-  REQUIRE(db.getAiportID("Airport 3") == 3);
+  REQUIRE(db.getAirportID("Airport 3") == 3);
 }
 
 TEST_CASE("DrawGraph Ctor", "[weight=1]") {

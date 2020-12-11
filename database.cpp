@@ -32,7 +32,7 @@ Airport::Airport(int id, string airportName, long double lat, long double longi)
 /*
 ** Return airportID given airport name.
 */
-int Database::getAiportID(string airportname) {
+int Database::getAirportID(string airportname) {
   for (auto plane : all_airports) {
     if (plane.name == airportname) return plane.airportID;
   }
