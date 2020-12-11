@@ -19,6 +19,7 @@ class DrawGraph {
     DrawGraph(const std::vector<Airport> & all_airports, const std::map<int, std::vector<int>> & connections);
     ~DrawGraph();
     const Graph & getGraph() const;
+    const vector<vector<pair<int, int>>> getAdj() const;
     void shortestPath(int start, int dest, const std::vector<Airport> & all_airports);
     void BFS(int start, const std::vector<Airport> & all_airports);
   private:

@@ -21,24 +21,26 @@
 ** graph to find whether a graph is strongly connected or not.
 */
 bool simpleKosaraju(DrawGraph g, int start, const vector<Airport> & all_airports) {
-  graph = g.getGraph();
+  Graph graph = g.getGraph();
 
   //BFS code from 'DrawGraph.cpp'
-  bool *visited = new bool[all_airports.size()];
+  vector<bool> visited;
+  vector<vector<pair<int, int>>> adj = g.getAdj();
+
   for(unsigned long i = 0; i < all_airports.size(); i++)
-      visited[i] = false; //mark all vertices are not visited
-  list<int> queue;
+      visited.push_back(false); //mark all vertices are not visited
+  list<int> queue1;
   visited[start] = true; //current node as visited and enqueue it
-  queue.push_back(start);
+  queue1.push_back(start);
   list< pair<int, int> >::iterator i;
-  while (!queue.empty()) {
+  while (!queue1.empty()) {
     //start = queue.front();
     //cout << start << " ";
-    queue.pop_front(); //dequeue vertex
-    for (i = adj[start].begin(); i != adj[start].end(); ++i) {
+    queue1.pop_front(); //dequeue vertex
+    for (auto i = adj[start].begin(); i != adj[start].end(); ++i) {
       if (!visited[(*i).first]) {
         visited[(*i).first] = true;
-        queue.push_back((*i).first);
+        queue1.push_back((*i).first);
       }
     }
   }
@@ -46,27 +48,35 @@ bool simpleKosaraju(DrawGraph g, int start, const vector<Airport> & all_airports
 
   //case: BFS doesn't visit all vertices
   if (find(visited.begin(), visited.end(), false) != visited.end()) return false;
+  
 
-  //reverse all edges
-  transpose = graph.getTranspose(graph); //from 'graph.h'
+  //reverse all edges in adj directly
+  vector<vector<pair<int, int>>> transposeAdj;
+
+  transposeAdj.resize(all_airports.size());
+
+  for(unsigned long initSrc = 0; initSrc < adj.size(); initSrc++){
+    for(auto initDest = adj[initSrc].begin(); initDest != adj[initSrc].end(); initDest++){
+      transposeAdj[initDest->first].push_back(make_pair(initSrc, initDest->second));
+    }
+  }
+
 
   //reset visited vector
   fill(visited.begin(), visited.end(), false);
 
   //copied and pasted from above
   //BFS
-  list<int> queue;
+  list<int> queue2;
   visited[start] = true; //current node as visited and enqueue it
-  queue.push_back(start);
-  list< pair<int, int> >::iterator i;
-  while (!queue.empty()) {
-    //start = queue.front();
-    //cout << start << " ";
-    queue.pop_front(); //dequeue vertex
-    for (i = adj[start].begin(); i != adj[start].end(); ++i) {
+  queue2.push_back(start);
+  while (!queue2.empty()) {
+
+    queue2.pop_front(); //dequeue vertex
+    for (auto i = transposeAdj[start].begin(); i != transposeAdj[start].end(); ++i) {
       if (!visited[(*i).first]) {
         visited[(*i).first] = true;
-        queue.push_back((*i).first);
+        queue2.push_back((*i).first);
       }
     }
   }

@@ -1,5 +1,6 @@
 #include "database.h"
 #include "DrawGraph.h"
+#include "kosaraju.h"
 
 using namespace std;
 
@@ -39,9 +40,12 @@ int main() {
 
   DrawGraph *graph = new DrawGraph(db.all_airports, db.connections);
 
-  graph->shortestPath(2, 18, db.all_airports);
+  graph->shortestPath(2, 5522, db.all_airports);
 
   graph->BFS(2, db.all_airports);
+
+  if(simpleKosaraju(*graph, 2, db.all_airports)) cout<< "Is strongly connected."<< endl;
+  else cout<< "Is not strongly connected." << endl;
 
   return 0;
 }

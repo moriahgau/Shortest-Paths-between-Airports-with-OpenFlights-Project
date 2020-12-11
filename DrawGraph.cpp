@@ -158,6 +158,10 @@ const Graph & DrawGraph::getGraph() const {
   return g_;
 }
 
+const vector<vector<pair<int, int>>> DrawGraph::getAdj() const{
+    return adj;
+}
+
 void DrawGraph::BFS(int start, const std::vector<Airport> & all_airports){
     std::list<int> bfsqueue; // airport id
     vector<int> path;
@@ -181,9 +185,13 @@ void DrawGraph::BFS(int start, const std::vector<Airport> & all_airports){
             }
         }
     }
-    for (int i = 0; i < path.size(); i++){
-        cout << path[i] <<", "<<endl;
+    unsigned long index;
+    for (index = 0; index < path.size() - 1; index++){
+        cout << path[index] <<", ";
     }
+
+    cout<< path[index]<< endl;
+
     delete[] visited;
     visited = NULL;
 }
