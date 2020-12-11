@@ -15,14 +15,16 @@ int main() {
   cin>> airportsPath;
   cout<< "Please input routes file path: ";
   cin>> routesPath;
+  cout<< "Loading database and drawing graph...";
   db.getAirportInfo(airportsPath);
   db.getConnections(routesPath);
   DrawGraph *graph = new DrawGraph(db.all_airports, db.connections);
 
   int choice;
-
-  cout<< "Please choose function (1: Shortest Path; 2: BFS; 3: Strongly Connected; 4: Find AirportID; 5: End): ";
   
+  cout<< "Finished!";
+  cout<< "Please choose function (1: Shortest Path; 2: BFS; 3: Strongly Connected; 4: Find AirportID; 5: End): ";
+
   while(cin>> choice){
 
     //Shortest Path
@@ -42,7 +44,7 @@ int main() {
 
     //BFS
     else if(choice == 2){
-      
+
       int src;
 
       cout<< "Please input starting airport ID: ";
@@ -64,7 +66,7 @@ int main() {
 
     //Find AirportID (CASE SENSITIVE)
     else if(choice == 4){
-      
+
       std::string name;
       cout<< "Please input airport name: ";
       cin.ignore();
@@ -79,7 +81,7 @@ int main() {
     }
 
     else{
-      
+
     }
 
     cout<< "Please choose function (1: Shortest Path; 2: BFS; 3: Strongly Connected; 4: Find AirportID; 5: End): ";
