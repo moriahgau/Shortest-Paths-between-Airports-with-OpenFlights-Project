@@ -25,6 +25,7 @@ int main() {
   
   while(cin>> choice){
 
+    //Shortest Path
     if(choice == 1){
 
       int src;
@@ -39,6 +40,7 @@ int main() {
       graph->shortestPath(src, dest, db.all_airports);
     }
 
+    //BFS
     else if(choice == 2){
       
       int src;
@@ -49,6 +51,7 @@ int main() {
       graph->BFS(src, db.all_airports);
     }
 
+    //Strongly Connected
     else if(choice == 3){
 
       int src;
@@ -59,6 +62,7 @@ int main() {
       else cout<< "Airports are not strongly connected." << endl;
     }
 
+    //Find AirportID (CASE SENSITIVE)
     else if(choice == 4){
       
       std::string name;
@@ -69,46 +73,13 @@ int main() {
       cout<< "AirportID is: "<< db.getAirportID(name)<< endl;
     }
 
+    //End Program
     else if(choice == 5){
       break;
     }
 
     cout<< "Please choose function (1: Shortest Path; 2: BFS; 3: Strongly Connected; 4: Find AirportID; 5: End): ";
   }
-  /*// ask user for departure airport (source) and arrival airport (dest)
-  string source;
-  bool depFlag = false;
-  cout << "Departure Airport Name (e.g ): ";
-  getline(cin, source); // get user input from the keyboard
-  for (auto plane : db.all_airports) {
-
-    if (source == plane.name){
-      depFlag = true;
-      break;
-    } 
-  }
-  if(!depFlag) cout << "Invalid airport name"<< endl; // check if valid airport name
-
-  string dest;
-  bool destFlag = false;
-  cout << "Arrival Airport Name: ";
-  getline(cin, dest);
-  for (auto plane : db.all_airports) {
-    if (source == plane.name){
-      destFlag = true;
-      break;
-    } 
-  }
-  if(!destFlag) cout << "Invalid airport name"<< endl; // check if valid airport name*/
-
-  //db.sortAirportsVector(db.getAiportID(source), db.getAiportID(dest)); // rearrange 'all_airports'
-
-  /*graph->shortestPath(2, 5522, db.all_airports);
-
-  graph->BFS(2, db.all_airports);
-
-  if(simpleKosaraju(*graph, 2, db.all_airports)) cout<< "Is strongly connected."<< endl;
-  else cout<< "Is not strongly connected." << endl;*/
 
   return 0;
 }
