@@ -24,5 +24,5 @@ class DrawGraph {
   private:
     Graph g_;
     Vertex startingVertex_;
-    std::list<pair<int, int>> *adj;
+    vector<vector<pair<int, int>>> adj;
 };

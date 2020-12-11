@@ -25,7 +25,7 @@ long double toRadians(const long double degree)
 long double distance(long double lat1, long double long1,  
                      long double lat2, long double long2) 
 { 
-    lat1 = toRadians(lat1); 
+    lat1 = toRadians(lat1);
     long1 = toRadians(long1); 
     lat2 = toRadians(lat2); 
     long2 = toRadians(long2); 
@@ -48,61 +48,61 @@ long double distance(long double lat1, long double long1,
 
 DrawGraph::DrawGraph(const std::vector<Airport> & all_airports, const std::map<int, std::vector<int>> & connections) : g_(true, true) {
     long double long1, long2, lat1, lat2;
-//     std::vector<Airport> all_airports;
-//     std::map<int, std::vector<int>> connections;
-// //     std::string getAiportName(int id);
-// //     all_airports = getAirportInfo(filename);
-// //     std::map<int, std::vector<int>> getConnections(string filename);
-//     std::vector<Airport> getAirportInfo(string filename);
-//     std::map<int, std::vector<int>> getConnections(string filename);
-    // std::map<int, int> indextoairport;
-    int numairports = all_airports.size();
+
+    int numAirports = all_airports.size();
+
+    //init adj
+    adj.resize(numAirports + 1); 
 
     startingVertex_ = "Airport " + to_string(all_airports[0].airportID); // the starting airport
     for (unsigned int i = 0; i < all_airports.size(); i++)
     {
       g_.insertVertex("Airport " + to_string(all_airports[i].airportID)); 
     }
-    while (numairports > 0) { // until iterates through all airports
+    while (numAirports > 0) { // until iterates through all airports
         for(auto i : connections){
-
+            
+            //flag to skip invalid airportIDs as passed in from database 
             bool firstFlag = false;
-            bool secondFlag = false;
-            for (unsigned long j = 0; j < i.second.size(); j++){
-                for(unsigned long check = 0; check < all_airports.size(); check++){
-                    if(i.first == all_airports[check].airportID){
-                        long1 = all_airports[check].longitude;
-                        lat1 =  all_airports[check].latitude;
-                        firstFlag = true;
-                    }
-                    if (i.second[j] == all_airports[check].airportID){
-                        long2 = all_airports[check].longitude;
-                        lat2 =  all_airports[check].latitude;
-                        secondFlag = true;
-                    }
-                    if(firstFlag && secondFlag){
-                        int d = distance(lat1, long1, lat2, long2); // cut it down to int
-                        g_.insertEdge("Airport " + to_string(i.first), "Airport " + to_string(i.second[j]));
-                        g_.setEdgeWeight("Airport " + to_string(i.first), "Airport " + to_string(i.second[j]), d);
-                        adj[i.first].push_back(make_pair(i.second[j], d));  // can i directly do this? 
-                        adj[i.second[j]].push_back(make_pair(i.first, d));
-                        numairports--;
-                        break;
-                    }
-                        firstFlag = false;
-                        secondFlag = false;
+            //find long/lat data for first
+            for(unsigned long firstCheck = 0;  firstCheck < all_airports.size(); firstCheck++){
+                if(i.first == all_airports[firstCheck].airportID){
+                    if(i.first == -1) break;
+                    long1 = all_airports[firstCheck].longitude;
+                    lat1 =  all_airports[firstCheck].latitude;
+                    firstFlag = true;
                 }
-                if(firstFlag && secondFlag) break;
             }
+
+            //find long/lat data for second
+            if(firstFlag){
+                for (unsigned long j = 0; j < i.second.size(); j++){
+                    for(unsigned long secondCheck = 0; secondCheck < all_airports.size(); secondCheck++){
+                        if (i.second[j] == all_airports[secondCheck].airportID){
+                            if(i.second[j] == -1) break;
+                            long2 = all_airports[secondCheck].longitude;
+                            lat2 =  all_airports[secondCheck].latitude;
+                        
+                            //add connection to graph (first data is already ready)
+                            int d = distance(lat1, long1, lat2, long2); // cut it down to int
+                            g_.insertEdge("Airport " + to_string(i.first), "Airport " + to_string(i.second[j]));
+                            g_.setEdgeWeight("Airport " + to_string(i.first), "Airport " + to_string(i.second[j]), d);
+                            adj[i.first].push_back(make_pair(i.second[j], d)); 
+                            adj[i.second[j]].push_back(make_pair(i.first, d));
+                            numAirports--;
+                        }
+                    }
+                }
+            }
+
+
+
         }
     }
 }
 
 DrawGraph::~DrawGraph(){
-    delete[] adj;
-    adj = NULL;
-    // delete[] visited;
-    // visited = NULL;
+    adj.clear();
 }
 
 void DrawGraph::shortestPath(int start, const std::vector<Airport> & all_airports) 
@@ -121,7 +121,7 @@ void DrawGraph::shortestPath(int start, const std::vector<Airport> & all_airport
         int prior = pqueue.top().second; 
         pqueue.pop();  
         // check in adjacent
-        for (std::list< pair<int, int> >::iterator i = adj[prior].begin(); i != adj[prior].end(); ++i) 
+        for (auto i = adj[prior].begin(); i != adj[prior].end(); ++i) 
         { 
             int id = (*i).first; 
             int distance = (*i).second; 
@@ -133,11 +133,12 @@ void DrawGraph::shortestPath(int start, const std::vector<Airport> & all_airport
             } 
         } 
     } 
+
+    unsigned long i;
     cout << "Airport Sequence: " << endl; 
-    for (int i = 0; i < parent.size()+1; i++) 
-        cout << parent[i] << " -> " << endl; 
-    // i++;   
-    // cout << parent[i] << endl;
+    for (i = 0; i < parent.size() - 1; i++) cout << parent[i] << " -> ";
+    i++;   
+    cout << parent[i] << endl;
 }  
 // Retrieves the graph
 const Graph & DrawGraph::getGraph() const {
@@ -148,7 +149,7 @@ void DrawGraph::BFS(int start, const std::vector<Airport> & all_airports){
     std::list<int> bfsqueue; // airport id
     // bool visited[all_airports.size()] = {false};
     bool *visited = new bool[all_airports.size()+1]; // will this cause a mem leak? 
-    for(int i = 0; i < all_airports.size()+1; i++)
+    for(unsigned long i = 0; i < all_airports.size()+1; i++)
          visited[i] = false;    // set everything as initially unvisited
     visited[start] = true;
     bfsqueue.push_back(start);
@@ -157,7 +158,7 @@ void DrawGraph::BFS(int start, const std::vector<Airport> & all_airports){
         int vertex = bfsqueue.front();
         cout << vertex << " ";
         bfsqueue.pop_front();
-    for(std::list< pair<int, int> >::iterator i = adj[vertex].begin(); i != adj[vertex].end(); ++i)   
+    for(auto i = adj[vertex].begin(); i != adj[vertex].end(); ++i)   
         {
             if (visited[(*i).first] == false)
             {

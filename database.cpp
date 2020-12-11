@@ -86,6 +86,9 @@ vector<Airport> Database::getAirportInfo(string filename) { //airports.dat
   all_airports.clear(); //clear all_airports data just in case
   locations.clear();
 
+  //self-assign airport ID
+  int assignedID = 1;
+
   while (getline(file, line)) {
 
     row.clear();
@@ -104,7 +107,6 @@ vector<Airport> Database::getAirportInfo(string filename) { //airports.dat
     } 
 
     // store data in airport variables
-    int identifier = stoi(row[0]); //convert string to integer
     string airportName = row[1];
     long double lat = stod(row[6]);
     long double longi = stod(row[7]);
@@ -114,7 +116,7 @@ vector<Airport> Database::getAirportInfo(string filename) { //airports.dat
 
     // add new Airport to airport vector
     Airport new_obj;
-    new_obj.airportID = identifier;
+    new_obj.airportID = assignedID;
     new_obj.name = airportName;
     new_obj.latitude = lat;
     new_obj.longitude = longi;
@@ -125,7 +127,10 @@ vector<Airport> Database::getAirportInfo(string filename) { //airports.dat
     pair<long double, long double> loc;
     loc.first = lat;
     loc.second = longi;
-    locations[identifier] = loc;
+    locations[assignedID] = loc;
+
+    //increment assignedID
+    assignedID++;
   }
 
   file.close();
