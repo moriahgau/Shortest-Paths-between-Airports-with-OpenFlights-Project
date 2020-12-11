@@ -132,16 +132,9 @@ void DrawGraph::shortestPath(int start, int dest, const std::vector<Airport> & a
                 parent[id] = prior;
                 pqueue.push(make_pair(dist[id], id)); 
             } 
-            //if(parent[id] == dest) break;
         }
-        //if(prior == dest) break;
     } 
 
-    //unsigned long i;
-    //cout << "Airport Sequence: " << endl; 
-    //for (i = 0; i < parent.size() - 1; i++) cout << parent[i] << " -> ";
-    //i++;   
-    //cout << parent[i] << endl;
     cout<< "Shortest Distance between "<< start<< " and "<< dest<< " is: "<< dist[dest]<< endl;
     cout<< "This path is: "<< endl;
     
