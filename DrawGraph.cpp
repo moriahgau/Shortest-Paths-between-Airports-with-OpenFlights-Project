@@ -86,9 +86,9 @@ DrawGraph::DrawGraph(const std::vector<Airport> & all_airports, const std::map<i
                         
                             //add connection to graph (first data is already ready)
                             int d = distance(lat1, long1, lat2, long2); // cut it down to int
-                            g_.insertEdge("Airport " + to_string(i.first), "Airport " + to_string(i.second[j]));
+                            g_.insertEdge("Airport " + to_string(i.first), "Airport " + to_string(i.second[j]));    // create corresponding edge and its weight
                             g_.setEdgeWeight("Airport " + to_string(i.first), "Airport " + to_string(i.second[j]), d);
-                            adj[i.first].push_back(make_pair(i.second[j], d)); 
+                            adj[i.first].push_back(make_pair(i.second[j], d)); // add connected airport and distance to adjacency
                             numAirports--;
                         }
                     }
@@ -100,18 +100,22 @@ DrawGraph::DrawGraph(const std::vector<Airport> & all_airports, const std::map<i
         }
     }
 }
-
+/**
+ * Destructor for the airport graph
+ */
 DrawGraph::~DrawGraph(){
     adj.clear();
 }
-
+/**
+ * Shortest path function by using Dijkstra's Algorithm
+ */
 void DrawGraph::shortestPath(int start, int dest, const std::vector<Airport> & all_airports) 
 { 
     // following psuedocode from lecture
     // Create a priority queue and initialize everything to infinity and all parents to 0
     priority_queue< airportPair, vector <airportPair> , greater<airportPair> > pqueue; 
     vector<int> dist(all_airports.size()+1, INF); 
-    vector<int> parent(all_airports.size()+1, 0);
+    vector<int> parent(all_airports.size()+1, 0);   // initialize all distances to infinity and parent to 0
 
     dist[start] = 0; 
     pqueue.push(make_pair(0, start));  
@@ -121,14 +125,14 @@ void DrawGraph::shortestPath(int start, int dest, const std::vector<Airport> & a
         int prior = pqueue.top().second; 
         pqueue.pop();  
         // check in adjacent
-        for (auto i = adj[prior].begin(); i != adj[prior].end(); ++i) 
+        for (auto i = adj[prior].begin(); i != adj[prior].end(); ++i) //iterate through adj
         { 
             int id = (*i).first; 
             int distance = (*i).second; 
-            if (dist[id] > dist[prior] + distance) 
+            if (dist[id] > dist[prior] + distance) // check to see if the distance is smaller
             { 
-                dist[id] = dist[prior] + distance; 
-                parent[id] = prior;
+                dist[id] = dist[prior] + distance; // add to the total distance
+                parent[id] = prior;  // track where it came from
                 pqueue.push(make_pair(dist[id], id)); 
             } 
         }
@@ -142,7 +146,7 @@ void DrawGraph::shortestPath(int start, int dest, const std::vector<Airport> & a
     
     int back = dest;
     std::stack<int> path;
-
+    // Backtracking to print the correct sequence
     while(back != start){
         path.push(parent[back]);
         back = parent[back];
@@ -159,11 +163,13 @@ void DrawGraph::shortestPath(int start, int dest, const std::vector<Airport> & a
 const Graph & DrawGraph::getGraph() const {
   return g_;
 }
-
+// Retrieves adj
 const vector<vector<pair<int, int>>> DrawGraph::getAdj() const{
     return adj;
 }
-
+/**
+ * BFS traversal through the entire airport graph
+ */
 void DrawGraph::BFS(int start, const std::vector<Airport> & all_airports){
     std::list<int> bfsqueue; // airport id
     vector<int> path;
@@ -171,30 +177,30 @@ void DrawGraph::BFS(int start, const std::vector<Airport> & all_airports){
     bool *visited = new bool[all_airports.size()+1]; // will this cause a mem leak? 
     for(unsigned long i = 0; i < all_airports.size()+1; i++)
          visited[i] = false;    // set everything as initially unvisited
-    visited[start] = true;
+    visited[start] = true;  // initialize only the starting airport to be visited
     bfsqueue.push_back(start);
     while(bfsqueue.empty() == false)
     {
         int vertex = bfsqueue.front();
-        path.push_back(vertex);
+        path.push_back(vertex); // push visited airport to the path vector
         bfsqueue.pop_front();
-    for(auto i = adj[vertex].begin(); i != adj[vertex].end(); ++i)   
+    for(auto i = adj[vertex].begin(); i != adj[vertex].end(); ++i)   // iterate through adjacent airports
         {
-            if (visited[(*i).first] == false)
+            if (visited[(*i).first] == false)   // confirm the airport has not yet been visited
             {
-                visited[(*i).first] = true;
-                bfsqueue.push_back((*i).first);
+                visited[(*i).first] = true; // set as visited
+                bfsqueue.push_back((*i).first); // push the airport index to the queue
             }
         }
     }
     unsigned long index;
-    for (index = 0; index < path.size() - 1; index++){
+    for (index = 0; index < path.size() - 1; index++){  // iterate to printout path sequence
         cout << path[index] <<", ";
     }
 
     cout<< path[index]<< endl;
 
-    delete[] visited;
+    delete[] visited;   //destroy to remove mem leak possibilities
     visited = NULL;
 }
 
