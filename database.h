@@ -63,10 +63,6 @@ public:
   */
   map<int, vector<int>> getConnections(string filename);
 
-  bool isStronglyConnected(int idA, int idB);
-  void scHelper();
-  void DFS(int vertex);
-  void DFSHelper(int vertex);
 
 
 };
