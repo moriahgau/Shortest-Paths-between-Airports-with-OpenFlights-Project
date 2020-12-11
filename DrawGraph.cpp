@@ -92,6 +92,12 @@ DrawGraph::DrawGraph(const std::vector<Airport> & all_airports, const std::map<i
                         firstFlag = false;
                         secondFlag = false;
             
+                    int d = distance(lat1, long1, lat2, long2); // cut it down to int
+                    g_.insertEdge("Airport " + to_string(i.first), "Airport " + to_string(i.second[j]));
+                    g_.setEdgeWeight("Airport " + to_string(i.first), "Airport " + to_string(i.second[j]), d);
+                    adj[i.first].push_back(make_pair(i.second[j], d)); 
+                    adj[i.second[j]].push_back(make_pair(i.first, d));
+                    numairports--;
                 }
                 if(firstFlag && secondFlag) break;
             }
@@ -106,16 +112,16 @@ DrawGraph::~DrawGraph(){
 
 void DrawGraph::shortestPath(int src, const std::vector<Airport> & all_airports) 
 { 
-    priority_queue< airportPair, vector <airportPair> , greater<airportPair> > pq; 
+    priority_queue< airportPair, vector <airportPair> , greater<airportPair> > pqueue; 
     vector<int> dist(all_airports.size(), INF); 
     vector<int> parent(all_airports.size(), 0);
-    pq.push(make_pair(0, src)); 
+    pqueue.push(make_pair(0, src)); 
     dist[src] = 0; 
 
-    while (!pq.empty()) 
+    while (!pqueue.empty()) 
     { 
-        int u = pq.top().second; 
-        pq.pop(); 
+        int u = pqueue.top().second; 
+        pqueue.pop(); 
         list< pair<int, int> >::iterator i; 
         for (i = adj[u].begin(); i != adj[u].end(); ++i) 
         { 
@@ -125,13 +131,12 @@ void DrawGraph::shortestPath(int src, const std::vector<Airport> & all_airports)
             { 
                 dist[v] = dist[u] + weight; 
                 parent[v] = u;
-                pq.push(make_pair(dist[v], v)); 
+                pqueue.push(make_pair(dist[v], v)); 
             } 
         } 
     } 
     printf("Airport Sequence: "); 
-    unsigned long i;
-    for (i = 0; i < parent.size()-1; ++i) 
+    for (unsigned long i = 0; i < parent.size()-1; i++) 
         printf("%d->", parent[i]); 
     i++;   
     printf("%d\n", parent[i]);
@@ -144,7 +149,7 @@ const Graph & DrawGraph::getGraph() const {
 void DrawGraph::BFS(int start, const std::vector<Airport> & all_airports){
     bool *visited = new bool[all_airports.size()];
     for(unsigned long i = 0; i < all_airports.size(); i++)
-        visited[i] = false;
+         visited[i] = false;
     list<int> queue;
     visited[start] = true;
     queue.push_back(start);
