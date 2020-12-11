@@ -9,7 +9,7 @@ int main() {
   db.getAirportInfo("airports.dat");
   db.getConnections("routes.dat");
   
-  // ask user for departure airport (source) and arrival airport (dest)
+  /*// ask user for departure airport (source) and arrival airport (dest)
   string source;
   bool depFlag = false;
   cout << "Departure Airport Name (e.g ): ";
@@ -33,15 +33,15 @@ int main() {
       break;
     } 
   }
-  if(!destFlag) cout << "Invalid airport name"<< endl; // check if valid airport name
+  if(!destFlag) cout << "Invalid airport name"<< endl; // check if valid airport name*/
 
-  db.sortAirportsVector(db.getAiportID(source), db.getAiportID(dest)); // rearrange 'all_airports'
+  //db.sortAirportsVector(db.getAiportID(source), db.getAiportID(dest)); // rearrange 'all_airports'
 
   DrawGraph *graph = new DrawGraph(db.all_airports, db.connections);
 
-  //graph->shortestPath(2, db.all_airports);
+  graph->shortestPath(2, 18, db.all_airports);
 
-  //graph->BFS(2, db.all_airports);
+  graph->BFS(2, db.all_airports);
 
   return 0;
 }

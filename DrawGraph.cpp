@@ -12,6 +12,7 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <stack>
 #define pi 3.14159265358979323846
 using namespace std;
 //#include <bits/stdc++.h> 
@@ -105,7 +106,7 @@ DrawGraph::~DrawGraph(){
     adj.clear();
 }
 
-void DrawGraph::shortestPath(int start, const std::vector<Airport> & all_airports) 
+void DrawGraph::shortestPath(int start, int dest, const std::vector<Airport> & all_airports) 
 { 
     // following psuedocode from lecture
     // Create a priority queue and initialize everything to infinity and all parents to 0
@@ -131,14 +132,34 @@ void DrawGraph::shortestPath(int start, const std::vector<Airport> & all_airport
                 parent[id] = prior;
                 pqueue.push(make_pair(dist[id], id)); 
             } 
-        } 
+            //if(parent[id] == dest) break;
+        }
+        //if(prior == dest) break;
     } 
 
-    unsigned long i;
-    cout << "Airport Sequence: " << endl; 
-    for (i = 0; i < parent.size() - 1; i++) cout << parent[i] << " -> ";
-    i++;   
-    cout << parent[i] << endl;
+    //unsigned long i;
+    //cout << "Airport Sequence: " << endl; 
+    //for (i = 0; i < parent.size() - 1; i++) cout << parent[i] << " -> ";
+    //i++;   
+    //cout << parent[i] << endl;
+    cout<< "Shortest Distance between "<< start<< " and "<< dest<< " is: "<< dist[dest]<< endl;
+    cout<< "This path is: "<< endl;
+    
+    int back = dest;
+    std::stack<int> path;
+
+    while(back != start){
+        path.push(parent[back]);
+        cout<< back<< endl;
+        back = parent[back];
+    } 
+    
+    while(!path.empty()){
+        cout<< path.top()<< "->";
+        path.pop();
+    }
+
+    cout<< dest<< endl;
 }  
 // Retrieves the graph
 const Graph & DrawGraph::getGraph() const {
