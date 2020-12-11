@@ -97,14 +97,14 @@ vector<Airport> Database::getAirportInfo(string filename) { //airports.dat
     while (getline(ss, temp, ',')) {
       row.push_back(temp); //put all the column data of a row in 'temp'
     }
-    
+
     //edge case in openflights dataset where there is a comma (defined delimiter) in airport name
     if('A' <= row[6][1] && 'Z' >= row[6][1]){
       for(unsigned long i = 2; i < row.size()-1; i++){
         row[i] = row[i+1];
       }
       row.pop_back();
-    } 
+    }
 
     // store data in airport variables
     string airportName = row[1];
@@ -158,7 +158,7 @@ map<int, vector<int>> Database::getConnections(string filename) { //routes.dat
       row.push_back(temp); //put all the column data of a row in 'temp'
     }
 
-
+    //compensate for dataset anomalies
     if(row[5][1] == 'N') row[5] = "-1";
     if(row[3][1] == 'N') row[3] = "-1";
 
@@ -175,40 +175,8 @@ map<int, vector<int>> Database::getConnections(string filename) { //routes.dat
       dest.push_back(destID);
       connections[sourceID] = dest; // create new entry
     }
-
-    // if destID in map, add sourceID to vector
-    // if (connections.count(destID) > 0) {
-    //   connections.at(destID).push_back(sourceID); // add sourceID
-    // }
-    // else {    // if destID not in map, create new element
-    //   vector<int> dest;
-    //   dest.push_back(sourceID);
-    //   connections[destID] = dest;
-    // }
   }
 
   file.close();
   return connections;
-}
-
-bool isStronglyConnected (int idA, int idB){
-
-//if airports are in same set,then they are strongly connected
-//if(scAirports.find(idA) == scAirports.find(idB)) return true;
-
-return false;
-}
-
-void scHelper(){
-
-  stack<int> stack;
-
-  /*int numAirports = all_airports.size();
-
-  //init visited array
-  bool *visited = new bool[numAirports];
-  for(int i = 0; i < numAirports; i++) visited[i] = false;*/
-
-  
-
 }
