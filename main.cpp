@@ -15,14 +15,14 @@ int main() {
   cin>> airportsPath;
   cout<< "Please input routes file path: ";
   cin>> routesPath;
-  cout<< "Loading database and drawing graph...";
+  cout<< "Loading database and drawing graph..."<< endl;
   db.getAirportInfo(airportsPath);
   db.getConnections(routesPath);
   DrawGraph *graph = new DrawGraph(db.all_airports, db.connections);
 
   int choice;
   
-  cout<< "Finished!";
+  cout<< "Finished!"<< endl;
   cout<< "Please choose function (1: Shortest Path; 2: BFS; 3: Strongly Connected; 4: Find AirportID; 5: End): ";
 
   while(cin>> choice){
@@ -77,6 +77,8 @@ int main() {
 
     //End Program
     else if(choice == 5){
+      delete graph;
+      graph = NULL;
       break;
     }
 
