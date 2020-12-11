@@ -141,7 +141,7 @@ void DrawGraph::shortestPath(int start, const std::vector<Airport> & all_airport
         } 
     } 
     cout << "Airport Sequence: " << endl; 
-    for (unsigned long i = 0; i < parent.size(); i++) 
+    for (int i = 0; i < parent.size()+1; i++) 
         printf("% d ->", parent[i]); 
     // i++;   
     // cout << parent[i] << endl;
@@ -154,19 +154,17 @@ const Graph & DrawGraph::getGraph() const {
 void DrawGraph::BFS(int start, const std::vector<Airport> & all_airports){
     std::list<int> bfsqueue; // airport id
     // bool visited[all_airports.size()] = {false};
-    bool *visited = new bool[all_airports.size()]; // will this cause a mem leak? 
-    for(int i = 0; i < all_airports.size(); i++)
-         visited[i] = false;
+    bool *visited = new bool[all_airports.size()+1]; // will this cause a mem leak? 
+    for(int i = 0; i < all_airports.size()+1; i++)
+         visited[i] = false;    // set everything as initially unvisited
     visited[start] = true;
     bfsqueue.push_back(start);
-    // list< pair<int, int> >::iterator i; 
     while(bfsqueue.empty() == false)
     {
         int vertex = bfsqueue.front();
         cout << vertex << " ";
         bfsqueue.pop_front();
-        // for (i = adj[vertex].begin(); i != adj[vertex].end(); ++i)
-    for(std::list< pair<int, int> >::iterator i = adj[vertex].begin(); i != adj[vertex].end(); ++i)
+    for(std::list< pair<int, int> >::iterator i = adj[vertex].begin(); i != adj[vertex].end(); ++i)   
         {
             if (visited[(*i).first] == false)
             {
@@ -175,6 +173,8 @@ void DrawGraph::BFS(int start, const std::vector<Airport> & all_airports){
             }
         }
     }
+    delete[] visited;
+    visited = NULL;
 }
 
 
