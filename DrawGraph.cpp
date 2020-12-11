@@ -89,7 +89,6 @@ DrawGraph::DrawGraph(const std::vector<Airport> & all_airports, const std::map<i
                             g_.insertEdge("Airport " + to_string(i.first), "Airport " + to_string(i.second[j]));
                             g_.setEdgeWeight("Airport " + to_string(i.first), "Airport " + to_string(i.second[j]), d);
                             adj[i.first].push_back(make_pair(i.second[j], d)); 
-                            adj[i.second[j]].push_back(make_pair(i.first, d));
                             numAirports--;
                         }
                     }

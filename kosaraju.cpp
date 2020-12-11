@@ -47,7 +47,10 @@ bool simpleKosaraju(DrawGraph g, int start, const vector<Airport> & all_airports
   //end of BFS
 
   //case: BFS doesn't visit all vertices
-  if (find(visited.begin(), visited.end(), false) != visited.end()) return false;
+  if (find(visited.begin(), visited.end(), false) != visited.end()){
+    cout<< "first"<< endl;
+    return false;
+  } 
   
 
   //reverse all edges in adj directly
