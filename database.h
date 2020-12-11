@@ -5,7 +5,6 @@
 #include <vector>
 #include <utility>
 
-#include "dsets.h"
 
 using namespace std;
 
@@ -25,8 +24,6 @@ public:
   vector<Airport> all_airports; //vector of all Airport objects in database
   map<int, pair<long double, long double>> locations; //map of locations of all Airports, locations[20].first = latitude, locations[20].second = longitude
   map<int, vector<int>> connections; //map of < airportID, vector of connected airport IDs >
-
-  DisjointSets scAirports; //disjoint set to keep track of all strongly connected airports with O(1) lookup
 
   //function declarations
 
