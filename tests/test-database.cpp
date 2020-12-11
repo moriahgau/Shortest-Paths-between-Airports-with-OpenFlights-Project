@@ -32,3 +32,14 @@ TEST_CASE("Check getAiportID", "[weight=1]") {
   db.getAirportInfo("tests/airportstoy.dat");
   REQUIRE(db.getAiportID("Airport 3") == 3);
 }
+
+TEST_CASE("shortestpath", "[weight=1]") {
+  Database db;
+  db.getAirportInfo("tests/airportstoy.dat");
+}
+
+TEST_CASE("BFS Traversal", "[weight=1]") {
+}
+
+TEST_CASE("Kosaraju's", "[weight=1]") {
+}
