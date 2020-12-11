@@ -2,7 +2,8 @@
 #include <stack>
 #include <string>
 #include <sstream>
-#include<algorithm>
+#include <algorithm>
+#include <iostream>
 #include "database.h"
 
 using std::string;

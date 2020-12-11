@@ -21,7 +21,7 @@ int main() {
   DrawGraph *graph = new DrawGraph(db.all_airports, db.connections);
 
   int choice;
-  
+
   cout<< "Finished!"<< endl;
   cout<< "Please choose function (1: Shortest Path; 2: BFS; 3: Strongly Connected; 4: Find AirportID; 5: End): ";
 
