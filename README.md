@@ -2,18 +2,18 @@
 
 --
 ### legend
-*program output*
+__program output__
 _example user input_
 
 ## How to run the executable
 1. Compile the program with 'make airports' in terminal.
 2. Execute program by running './airports' in terminal.
 3. User prompt to input file paths for 'airports.dat' and 'routes.dat'. The program should work by inputting just the file names for each respective line. If that doesn't work, then try the full path of the files.
-   - *Please input airports file path:* _airports.dat_
-   - *Please input routes file path:* _routes.dat_  
+   - __Please input airports file path:__ _airports.dat_
+   - __Please input routes file path:__ _routes.dat_  
 4. Program will read data files to populate database and will make a graph of airport data for algorithm functions.
-   - *Loading database and drawing graph...*
-   - *Finished!*
+   - __Loading database and drawing graph...__
+   - __Finished!__
 5. User prompt to pick an algorithm. We recommend inputting an airport name first to get the airport ID.
    - Shortest Path:
      - *Please choose function (1: Shortest Path; 2: BFS; 3: Strongly Connected; 4: Find AirportID; 5: End):* _1_
