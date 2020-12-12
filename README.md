@@ -17,7 +17,7 @@
    - __Loading database and drawing graph...__
    - __Finished!__
 
-5. User prompt to pick an algorithm. We recommend inputting an airport name first to get the airport ID.
+5. User prompt to pick an algorithm. We recommend calling 'Find AirportID' function first to get the airport ID to use for other functions. Below is a detailed guide on how to call each algorithm.
    - Shortest Path
      - __Please choose function (1: Shortest Path; 2: BFS; 3: Strongly Connected; 4: Find AirportID; 5: End):__ _1_
      - __Please input source airport ID:__ _155_
