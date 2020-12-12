@@ -58,7 +58,7 @@ int main() {
 
       int src;
 
-      cout<< "Please choose airport in graph: ";
+      cout<< "Please choose airport ID in graph: ";
       cin>> src;
       if(simpleKosaraju(*graph, src, db.all_airports)) cout<< "Airports are strongly connected."<< endl;
       else cout<< "Airports are not strongly connected." << endl;
@@ -68,12 +68,12 @@ int main() {
     else if(choice == 4){
 
       std::string name;
-      cout<< "Please input airport name: ";
+      cout<< "Please input exact airport name: ";
       cin.ignore();
       std::getline(cin, name);
       //cout<< name<< endl;
       if (db.getAirportID(name) == -1) {
-        cout<< "No AirportID found for "<< name<< endl;
+        cout<< "No AirportID found."<< endl;
       }
       else {
         cout<< "AirportID is: "<< db.getAirportID(name)<< endl;
