@@ -22,11 +22,10 @@
      - __Please choose function (1: Shortest Path; 2: BFS; 3: Strongly Connected; 4: Find AirportID; 5: End):__ _1_
      - __Please input source airport ID:__ _155_
      - __Please input destination airport ID:__ _5_
-     - If there is a path between source and destination, then program outputs:
-       - __Shortest Distance between 155 and 5 is:__ ***14281 km***
-       - __This path is:__
-       - ***155->196->49->156->3406->3316->5***
-     - If there is not a path, then program outputs:
+     - __Shortest Distance between 155 and 5 is:__ ***14281 km***
+     - __This path is:__
+     - ***155->196->49->156->3406->3316->5***
+     - If there is not a path between source and destination, then program outputs:
        - __Airport is not reachable__
 
    - BFS
