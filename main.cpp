@@ -71,8 +71,13 @@ int main() {
       cout<< "Please input airport name: ";
       cin.ignore();
       std::getline(cin, name);
-      cout<< name<< endl;
-      cout<< "AirportID is: "<< db.getAirportID(name)<< endl;
+      //cout<< name<< endl;
+      if (db.getAirportID(name) == -1) {
+        cout<< "No AirportID found for "<< name<< endl;
+      }
+      else {
+        cout<< "AirportID is: "<< db.getAirportID(name)<< endl;
+      }
     }
 
     //End Program
