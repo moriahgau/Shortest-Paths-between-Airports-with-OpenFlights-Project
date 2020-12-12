@@ -1,7 +1,7 @@
 # genel2-gjiang20-mgau2
 
 --
-#### Legend
+### Legend
 * __program output__
 * _example user input_
 * ***example program output for example user input***
