@@ -39,7 +39,7 @@
      - __Please choose airport in graph:__ _5_
      - If graph is not strongly connected, then program output. For this airports graph, it is not strongly connected, so it will always output the below.
        - __Airports are not strongly connected__
-     - If graph is strongly connected, will output above.
+     - If graph is strongly connected, then program output.
        - __Airports are strongly connected__
 
    - Find AirportID (airport name needs to be exact including spaces)
