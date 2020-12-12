@@ -60,8 +60,8 @@ int main() {
 
       cout<< "Please choose airport ID in graph: ";
       cin>> src;
-      if(simpleKosaraju(*graph, src, db.all_airports)) cout<< "Airports are strongly connected."<< endl;
-      else cout<< "Airports are not strongly connected." << endl;
+      if(simpleKosaraju(*graph, src, db.all_airports)) cout<< "Airports are strongly connected"<< endl;
+      else cout<< "Airports are not strongly connected" << endl;
     }
 
     //Find AirportID (CASE SENSITIVE)
@@ -73,7 +73,7 @@ int main() {
       std::getline(cin, name);
       //cout<< name<< endl;
       if (db.getAirportID(name) == -1) {
-        cout<< "No AirportID found."<< endl;
+        cout<< "No AirportID found"<< endl;
       }
       else {
         cout<< "AirportID is: "<< db.getAirportID(name)<< endl;

@@ -1,7 +1,7 @@
 # genel2-gjiang20-mgau2
 
 --
-### legend
+### Legend
 * __program output__
 * _example user input_
 * ***example program output for example user input***
@@ -24,7 +24,7 @@
      - __Please input destination airport ID:__ _5_
      - If there is a path between source and destination, then program output.
        - __Shortest Distance between 155 and 5 is:__ ***14281 km***
-       - __This path is:___
+       - __This path is:__
        ***155->196->49->156->3406->3316->5***
      - If there is not a path, then program output.
        - __Airport is not reachable__
@@ -38,16 +38,16 @@
      - __Please choose function (1: Shortest Path; 2: BFS; 3: Strongly Connected; 4: Find AirportID; 5: End):__ _3_
      - __Please choose airport in graph:__ _5_
      - If graph is not strongly connected, then program output. For this airports graph, it is not strongly connected, so it will always output the below.
-       - __Airports are not strongly connected.__
+       - __Airports are not strongly connected__
      - If graph is strongly connected, will output above.
-       - __Airports are strongly connected.__
+       - __Airports are strongly connected__
 
    - Find AirportID (airport name needs to be exact including spaces)
      - __Please choose function (1: Shortest Path; 2: BFS; 3: Strongly Connected; 4: Find AirportID; 5: End):__ _4_
      - __Please input airport name:__ _San Francisco International Airport_
      - __AirportID is:__ ***3271***
      - If invalid airport name, then program output.
-       - __No AirportID found.__
+       - __No AirportID found__
 
 6. Make sure to use end function after running algorithms to avoid memory leaks.
    - __Please choose function (1: Shortest Path; 2: BFS; 3: Strongly Connected; 4: Find AirportID; 5: End):__ _5_
