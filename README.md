@@ -25,7 +25,7 @@
      - If there is a path between source and destination, then program output.
        - __Shortest Distance between 155 and 5 is:__ ***14281 km***
        - __This path is:__
-       ***155->196->49->156->3406->3316->5***
+       - ***155->196->49->156->3406->3316->5***
      - If there is not a path, then program output.
        - __Airport is not reachable__
 
