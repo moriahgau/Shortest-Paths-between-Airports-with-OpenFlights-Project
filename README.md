@@ -9,7 +9,7 @@
 ## How to run the executable
 1. Compile the program with 'make airports' in terminal.
 2. Execute program by running './airports' in terminal.
-3. User prompt to input file paths for 'airports.dat' and 'routes.dat'. The program should work by inputting just the file names for each respective line. If that doesn't work, then try the full path of the files.
+3. User prompt to input file paths for 'airports.dat' and 'routes.dat'. Please input relative file path (relative to location of main.cpp)
    - __Please input airports file path:__ _airports.dat_
    - __Please input routes file path:__ _routes.dat_  
 
